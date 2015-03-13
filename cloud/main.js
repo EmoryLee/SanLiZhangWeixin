@@ -26,7 +26,7 @@ AV.Cloud.define('queryPhone', function(request, response) {
 	  //else {
 		//response.success('Nothing found.');
 	  //}
-	  response.success('ok');
+	  response.success(request.params.cname);
     },
     error: function() {
       response.error('Error.');
