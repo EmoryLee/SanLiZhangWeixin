@@ -14,7 +14,7 @@ AV.Cloud.define("queryPhone", function(request, response) {
   var query = new AV.Query("Contacts");
   var cname = request.params.cname;
   var ret = "";
-  query.equalTo('CName', request.params.cname);
+  query.equalTo("CName", "李春光");
   query.first({
     success: function(results) {
       //var sum = 0;
