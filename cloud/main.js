@@ -15,21 +15,21 @@ AV.Cloud.define("queryPhone", function(request, response) {
   var cname = request.params.cname;
   var ret = "";
   query.equalTo('CName', request.params.cname);
-  query.find({
+  query.first({
     success: function(results) {
       //var sum = 0;
       //for (var i = 0; i < results.length; ++i) {
       //  sum += results[i].get('stars');
       //}
       //response.success(sum / results.length);
-	  if (result.length > 0) {
+	  //if (result.length > 0) {
 		//response.success(request.params.cname + "的手机号是: " + results[0].getString('MobiPhone'));
-		ret = request.params.cname + "的手机号是: " + results[0].get('MobiPhone');
-	  }
-	  else {
+		ret = request.params.cname + "的手机号是: " + results.get('MobiPhone');
+	  //}
+	  //else {
 		//response.success('Nothing found.');
-		ret = "Nothing found.";
-	  }
+		//ret = "Nothing found.";
+	  //}
 	  //response.success('OK');
     },
     error: function() {
