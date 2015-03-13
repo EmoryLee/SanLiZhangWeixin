@@ -10,7 +10,7 @@
   }
 });
  */
-AV.Cloud.define("queryPhone", function(request, response) {
+AV.Cloud.define("queryPhone2", function(request, response) {
   var query = new AV.Query("Contacts");
   var cname = request.params.cname;
   var ret = "";
