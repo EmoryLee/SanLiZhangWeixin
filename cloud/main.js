@@ -16,7 +16,7 @@ AV.Cloud.define('queryPhone', function(request, response) {
 	query.equalTo("CName", cname);
 	query.first({
 		success: function(results) {
-			response.success(request.params.cname + "的手机号是: " + results.getString('MobiPhone'));
+			response.success(request.params.cname + "的手机号是: " + results[0].get('MobiPhone'));
 		},
 		error: function() {
 			response.error("Error");
