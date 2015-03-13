@@ -20,12 +20,13 @@ AV.Cloud.define('queryPhone', function(request, response) {
       //  sum += results[i].get('stars');
       //}
       //response.success(sum / results.length);
-	  if (result.length > 0) {
-		response.success(request.params.cname + "的手机号是: " + results[0].getString('MobiPhone'));
-	  }
-	  else {
-		response.success('Nothing found.');
-	  }
+	  //if (result.length > 0) {
+		//response.success(request.params.cname + "的手机号是: " + results[0].getString('MobiPhone'));
+	  //}
+	  //else {
+		//response.success('Nothing found.');
+	  //}
+	  response.success('ok');
     },
     error: function() {
       response.error('Error.');
