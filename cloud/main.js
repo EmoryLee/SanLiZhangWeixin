@@ -1,7 +1,7 @@
 ﻿require("cloud/app.js");
 // Use AV.Cloud.define to define as many cloud functions as you want.
 // For example:
-AV.Cloud.define("hello", function(request, response) {
+/* AV.Cloud.define("hello", function(request, response) {
   var name = request.params.name;
   if (name) {
     response.success("Hello " + name);
@@ -9,7 +9,7 @@ AV.Cloud.define("hello", function(request, response) {
     response.error('name?');
   }
 });
-
+ */
 AV.Cloud.define('queryPhone', function(request, response) {
   var query = new AV.Query('Contacts');
   query.equalTo('CName', request.params.cname);
