@@ -10,8 +10,9 @@
   }
 });
  */
-AV.Cloud.define('queryPhone', function(request, response) {
-  var query = new AV.Query('Contacts');
+AV.Cloud.define("queryPhone", function(request, response) {
+  var query = new AV.Query("Contacts");
+  var cname = request.params.cname;
   query.equalTo('CName', request.params.cname);
   query.find({
     success: function(results) {
@@ -26,10 +27,11 @@ AV.Cloud.define('queryPhone', function(request, response) {
 	  //else {
 		//response.success('Nothing found.');
 	  //}
-	  response.success(request.params.cname);
+	  response.success('OK');
     },
     error: function() {
       response.error('Error.');
     }
   });
+  response.success(cname);
 });
