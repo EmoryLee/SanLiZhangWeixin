@@ -13,6 +13,7 @@
 AV.Cloud.define("queryPhone", function(request, response) {
   var query = new AV.Query("Contacts");
   var cname = request.params.cname;
+  var ret = "";
   query.equalTo('CName', request.params.cname);
   query.find({
     success: function(results) {
@@ -21,17 +22,20 @@ AV.Cloud.define("queryPhone", function(request, response) {
       //  sum += results[i].get('stars');
       //}
       //response.success(sum / results.length);
-	  //if (result.length > 0) {
+	  if (result.length > 0) {
 		//response.success(request.params.cname + "的手机号是: " + results[0].getString('MobiPhone'));
-	  //}
-	  //else {
+		ret = request.params.cname + "的手机号是: " + results[0].get('MobiPhone');
+	  }
+	  else {
 		//response.success('Nothing found.');
-	  //}
-	  response.success('OK');
+		ret = "Nothing found.";
+	  }
+	  //response.success('OK');
     },
     error: function() {
-      response.error('Error.');
+      //response.error('Error.');
+	  ret = "Error";
     }
   });
-  response.success(cname);
+  response.success(ret);
 });
