@@ -27,12 +27,18 @@ var checkSignature = function(signature, timestamp, nonce, echostr, cb) {
 // 接收普通消息
 var receiveMessage = function(msg, cb) {
   //var frmUser = msg.xml.ToUserName;
-  var frmUser = "朋友";
-  var msgCont = "";
-  AV.Cloud.run('hello', {name: frmUser}, {
-    success: function(data){msgCont = data},
-    error: function(err){ msgCont = err}
-  })
+  //var frmUser = "朋友";
+  //var msgCont = "";
+  //AV.Cloud.run('hello', {name: frmUser}, {
+  //  success: function(data){msgCont = data},
+  //  error: function(err){ msgCont = err}
+  //})
+  var cName = msg.xml.Content;
+  var mobiPhone = "";
+  AV.Cloud.run('queryPhone', {cname: cName}, {
+	success: function(data){mobiPhone = data},
+	error: function(er){mobiPhone = err}
+  });
   
   var result = {
     xml: {
@@ -40,7 +46,7 @@ var receiveMessage = function(msg, cb) {
       FromUserName: '' + msg.xml.ToUserName + '',
       CreateTime: new Date().getTime(),
       MsgType: 'text',
-      Content: msgCont + '，你发的内容是「' + msg.xml.Content + '」。'
+      Content: mobiPhone
     }
   }
   cb(null, result);
