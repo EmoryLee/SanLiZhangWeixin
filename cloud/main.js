@@ -31,7 +31,7 @@ AV.Cloud.define('queryPhone', function(request, response) {
 	// });
 	query.first().then(
 		function(results){
-			mobiPhone = results.get('MobiPhone');
+			mobiPhone = results.MobiPhone;
 		},
 		function(error){
 			mobiPhone = "NA";
