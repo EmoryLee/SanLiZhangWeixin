@@ -29,6 +29,6 @@ AV.Cloud.define('queryPhone', function(request, response) {
 			response.error("Error");
 		}
 	});
-
+	response.success(mobiPhone);
 	//response.success(ret + cname);});
 });
