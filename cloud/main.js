@@ -13,7 +13,7 @@
 AV.Cloud.define('queryPhone', function(request, response) {
 	var query = new AV.Query("Contacts");
 	var cname = request.params.cname;
-	var mobiPhone = "";
+	var mobiPhone = ":";
 	query.equalTo("CName", cname);
 	query.find({
 		success: function(results) {
@@ -23,6 +23,7 @@ AV.Cloud.define('queryPhone', function(request, response) {
 				var object = results[i];
 				mobiPhone = mobiPhone + "" + object.get('MobiPhone') + "";
 			}
+			response.success(mobiPhone);
 		},
 		error: function() {
 			response.error("Error");
