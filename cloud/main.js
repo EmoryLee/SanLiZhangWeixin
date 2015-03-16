@@ -21,7 +21,8 @@ AV.Cloud.define('queryPhone', function(request, response) {
 			//response.success(results.length);
 			for (var i = 0; i < results.length; i++){
 				var object = results[i];
-				mobiPhone += object.get('MobiPhone');
+				mobiPhone = mobiPhone + "" + object.get('MobiPhone') + "";
+			}
 		},
 		error: function() {
 			response.error("Error");
