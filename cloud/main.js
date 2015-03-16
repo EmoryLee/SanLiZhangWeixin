@@ -15,20 +15,28 @@ AV.Cloud.define('queryPhone', function(request, response) {
 	var cname = request.params.cname;
 	var mobiPhone = ":";
 	query.equalTo("CName", cname);
-	query.find({
-		success: function(results) {
+	// query.find({
+		// success: function(results) {
 			//response.success(request.params.cname + "的手机号是: " + results.get('CName') + "");
 			//response.success(results.length);
-			for (var i = 0; i < results.length; i++){
-				var object = results[i];
-				mobiPhone = mobiPhone + "" + object.get('MobiPhone') + "";
-			}
-			response.success(mobiPhone);
+			// for (var i = 0; i < results.length; i++){
+				// var object = results[i];
+				// mobiPhone = mobiPhone + "" + object.get('MobiPhone') + "";
+			// }
+			// response.success(mobiPhone);
+		// },
+		// error: function() {
+			// response.error("Error");
+		// }
+	// });
+	query.first().then(
+		function(results){
+			mobiPhone = results.get('MobiPhone');
 		},
-		error: function() {
-			response.error("Error");
+		function(error){
+			mobiPhone = "NA";
 		}
-	});
+	);
 	response.success(mobiPhone);
 	//response.success(ret + cname);});
 });
