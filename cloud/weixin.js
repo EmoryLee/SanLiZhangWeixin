@@ -33,7 +33,7 @@ var receiveMessage = function(msg, cb) {
   //  success: function(data){msgCont = data},
   //  error: function(err){ msgCont = err}
   //})
-  var cName = msg.xml.Content;
+  var cName = "" + msg.xml.Content + "";
   var cname = cName.replace("[ '", "").replace("' ]", "");
   var mobiPhone = "";
   // AV.Cloud.run('queryPhone', {"cname": cName}, {
