@@ -41,7 +41,7 @@ var receiveMessage = function(msg, cb) {
   // })
   
   var query = new AV.Query("Contacts");
-  query.equalTo("CName", cName);
+  //query.equalTo("CName", cName);
   query.find({
 	success: function(results) {
 		console.log(results);
