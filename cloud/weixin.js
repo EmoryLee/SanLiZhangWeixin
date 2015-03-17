@@ -6,22 +6,34 @@ exports.exec = function(params, cb) {
   if (params.signature) {
     checkSignature(params.signature, params.timestamp, params.nonce, params.echostr, cb);
   } else {
-    receiveMessage(params, cb)
+	var msgType = '' + params.xml.MsgType + '';
+	if (msgType == 'text') {
+		var msgCont = '' + params.xml.Content + '';
+		var msgPrefix = msgCont.substring(0, 2);
+		switch(msgPrefix){
+			case "添加":
+				addContact(params, cb);
+				break;
+			default:
+				receiveMessage(params, cb);
+				break;
+		}
+	}
   }
 }
 
 // 验证签名
 var checkSignature = function(signature, timestamp, nonce, echostr, cb) {
-  var oriStr = [config.token, timestamp, nonce].sort().join('')
-  var code = crypto.createHash('sha1').update(oriStr).digest('hex');
-  debug('code:', code)
-  if (code == signature) {
-    cb(null, echostr);
-  } else {
-    var err = new Error('Unauthorized');
-    err.code = 401;
-    cb(err);
-  }
+	var oriStr = [config.token, timestamp, nonce].sort().join('')
+	var code = crypto.createHash('sha1').update(oriStr).digest('hex');
+	debug('code:', code)
+	if (code == signature) {
+		cb(null, echostr);
+	} else {
+		var err = new Error('Unauthorized');
+		err.code = 401;
+		cb(err);
+	}
 }
 
 // 接收普通消息
@@ -47,5 +59,31 @@ var receiveMessage = function(msg, cb) {
 		},
 		function(error){
 		}
+	);
+}
+
+//添加联系人
+var addContact = function(msg, cb) {
+	var cont = '' + msg.xml.Content + '';
+	var tmpStr = cont.substring(2);
+	var cName = tmpStr.replace(/[^\u4E00-\u9FA5]/g,'');
+	var mobiPhone = tmpStr.replace(/[^\d]/g,'');
+	//console.log(cName);
+	var avobj = new AV.Object("Contacts");
+	avobj.set("CName", cName);
+	avobj.set("MobiPhone", mobiPhone);
+	avobj.save().then(
+		function(obj) {
+			var result = {
+				xml: {
+					ToUserName: msg.xml.FromUserName[0],
+					FromUserName: '' + msg.xml.ToUserName + '',
+					CreateTime: new Date().getTime(),
+					MsgType: 'text',
+					Content: '保存成功!'
+				}
+			}
+		},
+		function(error){}
 	);
 }

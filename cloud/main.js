@@ -1,56 +1,11 @@
 ﻿require("cloud/app.js");
 // Use AV.Cloud.define to define as many cloud functions as you want.
 // For example:
-/* AV.Cloud.define("hello", function(request, response) {
+AV.Cloud.define("hello", function(request, response) {
   var name = request.params.name;
   if (name) {
     response.success("Hello " + name);
   } else {
     response.error('name?');
   }
-});
- */
-AV.Cloud.define('queryPhone', function(request, response) {
-	var query = new AV.Query("Contacts");
-	var cname = "" + request.params.cname + "";
-	//var mobiPhone = ":";
-	query.equalTo("CName", cname);
-	query.first({
-		success: function(results) {
-			if (results) {
-				console.log(results.get("MobiPhone"));
-				response.success("" + results.get("MobiPhone") + "");
-			}
-			else {
-				response.success("Not found.");
-			}
-		},
-		error: function() {
-			response.error("Error");
-		}
-	});
-	// query.find({
-		// success: function(results) {
-			//response.success(request.params.cname + "的手机号是: " + results.get('CName') + "");
-			//response.success(results.length);
-			// for (var i = 0; i < results.length; i++){
-				// var object = results[i];
-				// mobiPhone = mobiPhone + "" + object.get('MobiPhone') + "";
-			// }
-			// response.success(mobiPhone);
-		// },
-		// error: function() {
-			// response.error("Error");
-		// }
-	// });
-	// query.first().then(
-		// function(results){
-			// mobiPhone = "Yes";
-		// },
-		// function(error){
-			// mobiPhone = "NA";
-		// }
-	// );
-	// response.success(mobiPhone);
-	//response.success(ret + cname);});
 });
