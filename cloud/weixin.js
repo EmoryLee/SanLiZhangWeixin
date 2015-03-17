@@ -44,7 +44,7 @@ var receiveMessage = function(msg, cb) {
   //query.equalTo("CName", cName);
   query.find({
 	success: function(results) {
-		console.log(results);
+		console.log(results[0][0]);
 	},
 	error: function(error) {
 		console.log("error", error);
