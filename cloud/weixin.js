@@ -41,11 +41,12 @@ var receiveMessage = function(msg, cb) {
   // })
   
   var query = new AV.Query("Contacts");
+  console.log('param:cname:', cName);
   query.equalTo("CName", cName);
   query.first({
 	success: function(results) {
 		//console.log(results[0].attributes.MobiPhone);
-		console.log(results.attributes.MobiPhone);
+		console.log(results);
 	},
 	error: function(error) {
 		console.log("error", error);
