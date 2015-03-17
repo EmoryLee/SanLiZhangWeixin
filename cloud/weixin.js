@@ -62,7 +62,7 @@ var receiveMessage = function(msg, cb) {
       FromUserName: '' + msg.xml.ToUserName + '',
       CreateTime: new Date().getTime(),
       MsgType: 'text',
-      Content: 'AutoReply: ' + mobiPhone
+      Content: 'AutoReply: ' + mobiPhone + '';
     }
   }
   cb(null, result);

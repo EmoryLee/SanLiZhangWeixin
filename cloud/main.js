@@ -18,6 +18,7 @@ AV.Cloud.define('queryPhone', function(request, response) {
 	query.first({
 		success: function(results) {
 			if (results) {
+				console.log(results.get("MobiPhone"));
 				response.success("" + results.get("MobiPhone") + "");
 			}
 			else {
