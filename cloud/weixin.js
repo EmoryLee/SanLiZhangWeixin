@@ -40,7 +40,7 @@ var receiveMessage = function(msg, cb) {
 	// error: function(err){mobiPhone = err}
   // })
   
-  var query = new AV.Qeury("Contacts");
+  var query = new AV.Query("Contacts");
   query.equalTo("CName", cName);
   query.first({
 	success: function(results){
