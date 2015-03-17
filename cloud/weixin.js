@@ -43,8 +43,8 @@ var receiveMessage = function(msg, cb) {
   // });
   
    var query = new AV.Query("Contacts");
-   console.log('param:cname:', cname);
-   query.equalTo("CName", cname);
+   console.log('param:cname:', Cname);
+   query.equalTo("CName", Cname);
    query.first({
 	 success: function(results) {
 		//console.log(results[0].attributes.MobiPhone);
