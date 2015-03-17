@@ -57,8 +57,8 @@ var receiveMessage = function(msg, cb) {
   var cName = "" + msg.xml.Content + "";
   //console.log(cName);
   //var cname = cName.replace("[ '", "").replace("' ]", "");
-  var mobiPhone = queryMobiPhone(cName);
-  console.log('mobiPhone', mobiPhone);
+  //var mobiPhone = queryMobiPhone(cName);
+  //console.log('mobiPhone', mobiPhone);
   //AV.Cloud.run('queryPhone', {"cname": cName}, {
   //	success: function(data){mobiPhone = data},
   //	error: function(err){mobiPhone = err}
@@ -79,7 +79,27 @@ var receiveMessage = function(msg, cb) {
 	 }
    });
    */
+   
+   var query = new AV.Query("Contacts");
+   query.equalTo("CName", cName);
+   query.first().then(
+		function(results) {
+			var result = {
+    xml: {
+      ToUserName: msg.xml.FromUserName[0],
+      FromUserName: '' + msg.xml.ToUserName + '',
+      CreateTime: new Date().getTime(),
+      MsgType: 'text',
+      Content: 'AutoReply: ' + results.get("MobiPhone") + ''
+    }
+  }
+  cb(null, result);
+		},
+		function(error){
+		}
+	);
   
+  /*
   var result = {
     xml: {
       ToUserName: msg.xml.FromUserName[0],
@@ -90,4 +110,5 @@ var receiveMessage = function(msg, cb) {
     }
   }
   cb(null, result);
+  */
 }
