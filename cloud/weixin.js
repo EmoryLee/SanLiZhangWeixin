@@ -32,6 +32,7 @@ function queryMobiPhone(cname){
 		success: function(results) {
 			if (results) {
 				mobiPhone = "" + results.get("MobiPhone") + "";
+				console.log(mobiPhone);
 			}
 			else{
 				mobiPhone = "Not Found.";
