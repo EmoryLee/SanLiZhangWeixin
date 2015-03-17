@@ -44,7 +44,8 @@ var receiveMessage = function(msg, cb) {
   query.equalTo("CName", cName);
   query.first({
 	success: function(results) {
-		console.log(results[0].attributes.MobiPhone);
+		//console.log(results[0].attributes.MobiPhone);
+		console.log(results.attributes.MobiPhone);
 	},
 	error: function(error) {
 		console.log("error", error);
