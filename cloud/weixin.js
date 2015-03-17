@@ -35,10 +35,21 @@ var receiveMessage = function(msg, cb) {
   //})
   var cName = msg.xml.Content;
   var mobiPhone = "";
-  AV.Cloud.run('queryPhone', {"cname": cName}, {
-	success: function(data){mobiPhone = data},
-	error: function(err){mobiPhone = err}
-  })
+  // AV.Cloud.run('queryPhone', {"cname": cName}, {
+	// success: function(data){mobiPhone = data},
+	// error: function(err){mobiPhone = err}
+  // })
+  
+  var query = new AV.Qeury("Contacts");
+  query.equalTo("CName", cName);
+  query.first({
+	success: function(results){
+		mobiPhone = resutls.get('MobiPhone');
+	},
+	error: function(){
+		mobiPhone = "NA";
+	}
+  });
   
   var result = {
     xml: {
