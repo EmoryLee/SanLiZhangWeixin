@@ -40,7 +40,7 @@ var receiveMessage = function(msg, cb) {
   AV.Cloud.run('queryPhone', {"cname": cName}, {
 	success: function(data){mobiPhone = data},
 	error: function(err){mobiPhone = err}
-   })
+   });
   
   // var query = new AV.Query("Contacts");
   // console.log('param:cname:', cname);
