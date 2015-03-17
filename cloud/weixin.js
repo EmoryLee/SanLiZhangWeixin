@@ -42,15 +42,14 @@ var receiveMessage = function(msg, cb) {
   
   var query = new AV.Query("Contacts");
   query.equalTo("CName", cName);
-  query.first().then(
-	function(obj){
-		//mobiPhone = '[' + obj.get('MobiPhone') + ']';
-		console.log(obj);
+  query.find({
+	success: function(results) {
+		console.log(results);
 	},
-	function(error){
-		mobiPhone = "NA";
+	error: function(error) {
+		console.log("error", error);
 	}
-  );
+  });
   
   var result = {
     xml: {
