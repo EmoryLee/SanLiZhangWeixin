@@ -30,10 +30,12 @@ function queryMobiPhone(cname){
 	query.equalTo("CName", cname");
 	query.first({
 		success: function(results) {
-			if (results)
+			if (results) {
 				mobiPhone = "" + results.get("MobiPhone") + "";
-			else
+			}
+			else{
 				mobiPhone = "Not Found.";
+			}
 		},
 		error: function(error) {
 			mobiPhone = "" + error + "";
