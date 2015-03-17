@@ -34,6 +34,8 @@ var receiveMessage = function(msg, cb) {
   //  error: function(err){ msgCont = err}
   //})
   var cName = msg.xml.Content;
+  cName = cName.replace("[ '", "");
+  cName = cName.replace("' ]", "");
   var mobiPhone = "";
   // AV.Cloud.run('queryPhone', {"cname": cName}, {
 	// success: function(data){mobiPhone = data},
@@ -42,7 +44,7 @@ var receiveMessage = function(msg, cb) {
   
   var query = new AV.Query("Contacts");
   console.log('param:cname:', cName);
-  //query.equalTo("CName", cName);
+  query.equalTo("CName", cName);
   query.first({
 	success: function(results) {
 		//console.log(results[0].attributes.MobiPhone);
