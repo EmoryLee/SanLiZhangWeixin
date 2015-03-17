@@ -24,91 +24,28 @@ var checkSignature = function(signature, timestamp, nonce, echostr, cb) {
   }
 }
 
-function queryMobiPhone(cname){
-	var mobiPhone = "";
-	var query = new AV.Query("Contacts");
-	query.equalTo("CName", cname);
-	query.first({
-		success: function(results) {
-			if (results) {
-				mobiPhone = "" + results.get("MobiPhone") + "";
-				console.log(mobiPhone);
-			}
-			else{
-				mobiPhone = "Not Found.";
-			}
-		},
-		error: function(error) {
-			mobiPhone = "" + error + "";
-		}
-	});
-	return mobiPhone;
-}
-
 // 接收普通消息
 var receiveMessage = function(msg, cb) {
-  //var frmUser = msg.xml.ToUserName;
-  //var frmUser = "朋友";
-  //var msgCont = "";
-  //AV.Cloud.run('hello', {name: frmUser}, {
-  //  success: function(data){msgCont = data},
-  //  error: function(err){ msgCont = err}
-  //})
-  var cName = "" + msg.xml.Content + "";
-  //console.log(cName);
-  //var cname = cName.replace("[ '", "").replace("' ]", "");
-  //var mobiPhone = queryMobiPhone(cName);
-  //console.log('mobiPhone', mobiPhone);
-  //AV.Cloud.run('queryPhone', {"cname": cName}, {
-  //	success: function(data){mobiPhone = data},
-  //	error: function(err){mobiPhone = err}
-  // });
-  /*
-   var query = new AV.Query("Contacts");
-   console.log('param:cname:', cName);
-   query.equalTo("CName", cName);
-   query.first({
-	 success: function(results) {
-		//console.log(results[0].attributes.MobiPhone);
-		// console.log(results);
-		console.log(results.get("MobiPhone"));
-		mobiPhone = '' + results.get("MobiPhone") + '';
-	 },
-	 error: function(error) {
-		console.log("error", error);
-	 }
-   });
-   */
-   
-   var query = new AV.Query("Contacts");
-   query.equalTo("CName", cName);
-   query.first().then(
-		function(results) {
+	var cName = "" + msg.xml.Content + "";
+	//console.log(cName);
+	var query = new AV.Query("Contacts");
+	query.equalTo("CName", cName);
+	query.first().then(
+		function(obj) {
+			var cont = "不知道你啥意思~~";
+			if (obj) cont = cName + '的手機號是: ' + obj.get("MobiPhone") + '';
 			var result = {
-    xml: {
-      ToUserName: msg.xml.FromUserName[0],
-      FromUserName: '' + msg.xml.ToUserName + '',
-      CreateTime: new Date().getTime(),
-      MsgType: 'text',
-      Content: 'AutoReply: ' + results.get("MobiPhone") + ''
-    }
-  }
-  cb(null, result);
+				xml: {
+					ToUserName: msg.xml.FromUserName[0],
+					FromUserName: '' + msg.xml.ToUserName + '',
+					CreateTime: new Date().getTime(),
+					MsgType: 'text',
+					Content: cont
+				}
+			}
+			cb(null, result);
 		},
 		function(error){
 		}
 	);
-  
-  /*
-  var result = {
-    xml: {
-      ToUserName: msg.xml.FromUserName[0],
-      FromUserName: '' + msg.xml.ToUserName + '',
-      CreateTime: new Date().getTime(),
-      MsgType: 'text',
-      Content: 'AutoReply: ' + mobiPhone + ''
-    }
-  }
-  cb(null, result);
-  */
 }
