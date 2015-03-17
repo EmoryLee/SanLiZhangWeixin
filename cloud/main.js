@@ -12,9 +12,22 @@
  */
 AV.Cloud.define('queryPhone', function(request, response) {
 	var query = new AV.Query("Contacts");
-	var cname = request.params.cname;
-	var mobiPhone = ":";
+	var cname = "" + request.params.cname + "";
+	//var mobiPhone = ":";
 	query.equalTo("CName", cname);
+	query.first({
+		success: function(results) {
+			if (results) {
+				response.success("" + results.get("MobiPhone") + "");
+			}
+			else {
+				response.success("Not found.");
+			}
+		},
+		error: function() {
+			response.error("Error");
+		}
+	});
 	// query.find({
 		// success: function(results) {
 			//response.success(request.params.cname + "的手机号是: " + results.get('CName') + "");
@@ -29,14 +42,14 @@ AV.Cloud.define('queryPhone', function(request, response) {
 			// response.error("Error");
 		// }
 	// });
-	query.first().then(
-		function(results){
-			mobiPhone = "Yes";
-		},
-		function(error){
-			mobiPhone = "NA";
-		}
-	);
-	response.success(mobiPhone);
+	// query.first().then(
+		// function(results){
+			// mobiPhone = "Yes";
+		// },
+		// function(error){
+			// mobiPhone = "NA";
+		// }
+	// );
+	// response.success(mobiPhone);
 	//response.success(ret + cname);});
 });
