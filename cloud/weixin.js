@@ -18,7 +18,7 @@ exports.exec = function(params, cb) {
 				delContact(params, cb);
 				break;
 			default:
-				receiveMessage(params, cb);
+				queryContact(params, cb);
 				break;
 		}
 	}
@@ -39,8 +39,8 @@ var checkSignature = function(signature, timestamp, nonce, echostr, cb) {
 	}
 }
 
-// 接收普通消息
-var receiveMessage = function(msg, cb) {
+// 查詢聯繫人
+var queryContact = function(msg, cb) {
 	var cName = "" + msg.xml.Content + "";
 	//console.log(cName);
 	var query = new AV.Query("Contacts");
@@ -92,6 +92,18 @@ var addContact = function(msg, cb) {
 							}
 						};
 						cb(null, result);
+					},
+					function(err){
+						var result = {
+							xml: {
+								ToUserName: msg.xml.FromUserName[0],
+								FromUserName: '' + msg.xml.ToUserName + '',
+								CreateTime: new Date().getTime(),
+								MsgType: 'text',
+								Content: '保存失敗:' + err + ''
+							}
+						};
+						cb(null, result);
 					}
 				);
 			}
@@ -107,6 +119,18 @@ var addContact = function(msg, cb) {
 				};
 				cb(null, result);
 			}
+		},
+		function(err) {
+			var result = {
+				xml: {
+					ToUserName: msg.xml.FromUserName[0],
+					FromUserName: '' + msg.xml.ToUserName + '',
+					CreateTime: new Date().getTime(),
+					MsgType: 'text',
+					Content: '查詢失敗' + err + ''
+				}
+			};
+			cb(null, result);
 		}
 	);
 }
@@ -136,6 +160,18 @@ var delContact = function(msg, cb) {
 							}
 						};
 						cb(null, result);
+					},
+					function(err){
+						var result = {
+							xml: {
+								ToUserName: msg.xml.FromUserName[0],
+								FromUserName: '' + msg.xml.ToUserName + '',
+								CreateTime: new Date().getTime(),
+								MsgType: 'text',
+								Content: '刪除失敗:' + err + ''
+							}
+						};
+						cb(null, result);
 					}
 				);
 			}
@@ -151,6 +187,18 @@ var delContact = function(msg, cb) {
 				};
 				cb(null, result);
 			}
+		},
+		function(err) {
+			var result = {
+				xml: {
+					ToUserName: msg.xml.FromUserName[0],
+					FromUserName: '' + msg.xml.ToUserName + '',
+					CreateTime: new Date().getTime(),
+					MsgType: 'text',
+					Content: '查詢失敗' + err + ''
+				}
+			};
+			cb(null, result);
 		}
 	);
 }
