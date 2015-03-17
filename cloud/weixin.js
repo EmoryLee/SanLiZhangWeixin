@@ -24,6 +24,22 @@ var checkSignature = function(signature, timestamp, nonce, echostr, cb) {
   }
 }
 
+function queryMobiPhone(cname){
+	var mobiPhone = "";
+	var query = new AV.Query("Contacts");
+	query.equalTo("CName", cname");
+	query.first({
+		success: function(results) {
+			if (results) mobiPhone = results.get("MobiPhone");
+			else mobiPhone = "Not Found.";
+		},
+		error: function(error) {
+			mobiPhone = "" + error + "";
+		}
+	})
+	return mobiPhone;
+}
+
 // 接收普通消息
 var receiveMessage = function(msg, cb) {
   //var frmUser = msg.xml.ToUserName;
@@ -36,12 +52,12 @@ var receiveMessage = function(msg, cb) {
   var cName = "" + msg.xml.Content + "";
   //console.log(cName);
   //var cname = cName.replace("[ '", "").replace("' ]", "");
-  var mobiPhone = "";
+  var mobiPhone = queryMobiPhone(cName);
   //AV.Cloud.run('queryPhone', {"cname": cName}, {
   //	success: function(data){mobiPhone = data},
   //	error: function(err){mobiPhone = err}
   // });
-  
+  /*
    var query = new AV.Query("Contacts");
    console.log('param:cname:', cName);
    query.equalTo("CName", cName);
@@ -56,6 +72,7 @@ var receiveMessage = function(msg, cb) {
 		console.log("error", error);
 	 }
    });
+   */
   
   var result = {
     xml: {
