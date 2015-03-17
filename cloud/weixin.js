@@ -119,7 +119,6 @@ var delContact = function(msg, cb) {
 	var cName = tmpStr.replace(/[^\u4E00-\u9FA5]/g,'');
 	//var mobiPhone = tmpStr.replace(/[^\d]/g,'');
 	//console.log(cName);
-	var newCont = '用戶不存在！';
 	var query = new AV.Query("Contacts");
 	query.equalTo("CName", cName);
 	query.first().then(
@@ -127,29 +126,31 @@ var delContact = function(msg, cb) {
 			if (obj) {
 				obj.destroy().then(
 					function(){
-						newCont = '刪除成功！';
-					},
-					function(error){
-						newCont = '刪除出錯:' + error + '';
+						var result = {
+							xml: {
+								ToUserName: msg.xml.FromUserName[0],
+								FromUserName: '' + msg.xml.ToUserName + '',
+								CreateTime: new Date().getTime(),
+								MsgType: 'text',
+								Content: '刪除成功！'
+							}
+						};
+						cb(null, result);
 					}
 				);
 			}
-		},
-		function(error) {
-			newCont = '查詢出錯:' + error + '';
-		}
-	).then(
-		function(){
-			var result = {
-				xml: {
-					ToUserName: msg.xml.FromUserName[0],
-					FromUserName: '' + msg.xml.ToUserName + '',
-					CreateTime: new Date().getTime(),
-					MsgType: 'text',
-					Content: newCont
-				}
-			};
-			cb(null, result);
+			else {
+				var result = {
+					xml: {
+						ToUserName: msg.xml.FromUserName[0],
+						FromUserName: '' + msg.xml.ToUserName + '',
+						CreateTime: new Date().getTime(),
+						MsgType: 'text',
+						Content: '用户不存在'
+					}
+				};
+				cb(null, result);
+			}
 		}
 	);
 }
