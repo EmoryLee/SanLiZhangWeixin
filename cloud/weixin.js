@@ -43,9 +43,8 @@ var receiveMessage = function(msg, cb) {
   var query = new AV.Query("Contacts");
   query.equalTo("CName", cName);
   query.first().then(
-	function(results){
-		results = results || [];
-		mobiPhone = '' + results[0].get("MobiPhone") + '';
+	function(obj){
+		mobiPhone = '[' + obj.get('MobiPhone') + ']';
 	},
 	function(error){
 		mobiPhone = "NA";
