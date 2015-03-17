@@ -49,7 +49,7 @@ var receiveMessage = function(msg, cb) {
 	 success: function(results) {
 		//console.log(results[0].attributes.MobiPhone);
 		// console.log(results);
-		// console.log(results.get("MobiPhone"));
+		console.log(results.get("MobiPhone"));
 		mobiPhone = '' + results.get("MobiPhone") + '';
 	 },
 	 error: function(error) {
