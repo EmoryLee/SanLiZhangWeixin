@@ -99,7 +99,7 @@ var addContact = function(msg, cb) {
 						FromUserName: '' + msg.xml.ToUserName + '',
 						CreateTime: new Date().getTime(),
 						MsgType: 'text',
-						Content: '保存成功！'
+						Content: '用户已存在'
 					}
 				};
 				cb(null, result);
