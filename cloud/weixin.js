@@ -27,7 +27,7 @@ var checkSignature = function(signature, timestamp, nonce, echostr, cb) {
 function queryMobiPhone(cname){
 	var mobiPhone = "";
 	var query = new AV.Query("Contacts");
-	query.equalTo("CName", cname");
+	query.equalTo("CName", cname);
 	query.first({
 		success: function(results) {
 			if (results) {
