@@ -69,21 +69,41 @@ var addContact = function(msg, cb) {
 	var cName = tmpStr.replace(/[^\u4E00-\u9FA5]/g,'');
 	var mobiPhone = tmpStr.replace(/[^\d]/g,'');
 	//console.log(cName);
-	var avobj = new AV.Object("Contacts");
-	avobj.set("CName", cName);
-	avobj.set("MobiPhone", mobiPhone);
-	avobj.save().then(
+	var query = new AV.Query("Contacts");
+	query.equalTo("CName", cName);
+	query.first().then(
 		function(obj) {
-			var result = {
-				xml: {
-					ToUserName: msg.xml.FromUserName[0],
-					FromUserName: '' + msg.xml.ToUserName + '',
-					CreateTime: new Date().getTime(),
-					MsgType: 'text',
-					Content: '保存成功!'
-				}
+			if (!obj) {
+				var newCont = new AV.Object("Contacts");
+				newCont.set("CName", cName);
+				newCont.set("MobiPhone", mobiPhone);
+				newCont.save().then(
+					function(){
+						var result = {
+							xml: {
+								ToUserName: msg.xml.FromUserName[0],
+								FromUserName: '' + msg.xml.ToUserName + '',
+								CreateTime: new Date().getTime(),
+								MsgType: 'text',
+								Content: '保存成功！'
+							}
+						};
+						cb(null, result);
+					}
+				);
 			}
-		},
-		function(error){}
+			else {
+				var result = {
+					xml: {
+						ToUserName: msg.xml.FromUserName[0],
+						FromUserName: '' + msg.xml.ToUserName + '',
+						CreateTime: new Date().getTime(),
+						MsgType: 'text',
+						Content: '保存成功！'
+					}
+				};
+				cb(null, result);
+			}
+		}
 	);
 }
