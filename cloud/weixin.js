@@ -34,27 +34,28 @@ var receiveMessage = function(msg, cb) {
   //  error: function(err){ msgCont = err}
   //})
   var cName = "" + msg.xml.Content + "";
-  console.log(cName);
+  //console.log(cName);
   //var cname = cName.replace("[ '", "").replace("' ]", "");
   var mobiPhone = "";
-  AV.Cloud.run('queryPhone', {"cname": cName}, {
-	success: function(data){mobiPhone = data},
-	error: function(err){mobiPhone = err}
-   });
+  //AV.Cloud.run('queryPhone', {"cname": cName}, {
+  //	success: function(data){mobiPhone = data},
+  //	error: function(err){mobiPhone = err}
+  // });
   
-  // var query = new AV.Query("Contacts");
-  // console.log('param:cname:', cname);
-  // query.equalTo("CName", cname);
-  // query.first({
-	// success: function(results) {
+   var query = new AV.Query("Contacts");
+   console.log('param:cname:', cname);
+   query.equalTo("CName", cname);
+   query.first({
+	 success: function(results) {
 		//console.log(results[0].attributes.MobiPhone);
 		// console.log(results);
 		// console.log(results.get("MobiPhone"));
-	// },
-	// error: function(error) {
-		// console.log("error", error);
-	// }
-  // });
+		mobiPhone = '' + results.get("MobiPhone") + '';
+	 },
+	 error: function(error) {
+		console.log("error", error);
+	 }
+   });
   
   var result = {
     xml: {
