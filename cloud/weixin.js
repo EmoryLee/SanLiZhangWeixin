@@ -46,28 +46,46 @@ var checkSignature = function(signature, timestamp, nonce, echostr, cb) {
 var queryContact = function(msg, cb) {
 	var cName = "" + msg.xml.Content + "";
 	//console.log(cName);
-	var query = new AV.Query("Contacts");
-	query.equalTo("CName", cName);
-	query.first().then(
-		function(obj) {
-			var arr = ['不知道你啥意思~~', '你想干嘛~~', '是不是很無聊~~', '想請我吃飯？抱歉，沒時間~~', '/:,@o'];
-			arr.sort(function(){return Math.random()-0.5;});
-			var cont = arr.slice(0,1);
-			if (obj) cont = cName + '的手機號是: ' + obj.get("MobiPhone") + '';
-			var result = {
-				xml: {
-					ToUserName: msg.xml.FromUserName[0],
-					FromUserName: '' + msg.xml.ToUserName + '',
-					CreateTime: new Date().getTime(),
-					MsgType: 'text',
-					Content: cont
-				}
+	if (cName == '操作方法' || cName == '方法' || cName == '说明' || cName == '?') {
+		var cont = '1. 直接输入姓名可以查询手机号\n';
+		cont += '2. 添加+姓名+手机号, 可添加联系人, 如：添加中国移动13800138000\n';
+		cont += '3. 更新+姓名+手机号, 可更新联系人手机号, 如：更新中国移动10086\n';
+		cont += '4. 删除+姓名, 可添加联系人, 如：删除中国移动\n';
+		var result = {
+			xml: {
+				ToUserName: msg.xml.FromUserName[0],
+				FromUserName: '' + msg.xml.ToUserName + '',
+				CreateTime: new Date().getTime(),
+				MsgType: 'text',
+				Content: cont
 			}
-			cb(null, result);
-		},
-		function(error){
 		}
-	);
+		cb(null, result);
+	}
+	else {
+		var query = new AV.Query("Contacts");
+		query.equalTo("CName", cName);
+		query.first().then(
+			function(obj) {
+				var arr = ['不知道你啥意思~~', '你想干嘛~~', '是不是很無聊~~', '想請我吃飯？抱歉，沒時間~~', '/:,@o', '/::~'];
+				arr.sort(function(){return Math.random()-0.5;});
+				var cont = arr.slice(0,1);
+				if (obj) cont = cName + '的手機號是: ' + obj.get("MobiPhone") + '';
+				var result = {
+					xml: {
+						ToUserName: msg.xml.FromUserName[0],
+						FromUserName: '' + msg.xml.ToUserName + '',
+						CreateTime: new Date().getTime(),
+						MsgType: 'text',
+						Content: cont
+					}
+				}
+				cb(null, result);
+			},
+			function(error){
+			}
+		);
+	}
 }
 
 //添加联系人
