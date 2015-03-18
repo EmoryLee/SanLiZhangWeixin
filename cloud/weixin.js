@@ -272,7 +272,7 @@ var editContact = function(msg, cb) {
 								FromUserName: '' + msg.xml.ToUserName + '',
 								CreateTime: new Date().getTime(),
 								MsgType: 'text',
-								Content: '更新時發生錯誤:' + err + '';
+								Content: '更新時發生錯誤:' + err + ''
 							}
 						};
 						cb(null, result);
