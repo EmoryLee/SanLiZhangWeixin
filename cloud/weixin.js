@@ -47,7 +47,9 @@ var queryContact = function(msg, cb) {
 	query.equalTo("CName", cName);
 	query.first().then(
 		function(obj) {
-			var cont = "不知道你啥意思~~";
+			var arr = ['不知道你啥意思~~', '你想干嘛~~', '是不是很無聊~~', '想請我吃飯？抱歉，沒時間~~'];
+			arr.sort(function(){return Math.random()-0.5;});
+			var cont = arr.slice(0,1);
 			if (obj) cont = cName + '的手機號是: ' + obj.get("MobiPhone") + '';
 			var result = {
 				xml: {
