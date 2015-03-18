@@ -17,6 +17,9 @@ exports.exec = function(params, cb) {
 			case "删除":
 				delContact(params, cb);
 				break;
+			case "更新":
+				editContact(params, cb);
+				break;
 			default:
 				queryContact(params, cb);
 				break;
@@ -198,6 +201,93 @@ var delContact = function(msg, cb) {
 					CreateTime: new Date().getTime(),
 					MsgType: 'text',
 					Content: '查詢失敗' + err + ''
+				}
+			};
+			cb(null, result);
+		}
+	);
+}
+
+//更新联系人
+var editContact = function(msg, cb) {
+	var cont = '' + msg.xml.Content + '';
+	var tmpStr = cont.substring(2);
+	var cName = tmpStr.replace(/[^\u4E00-\u9FA5]/g,'');
+	var mobiPhone = tmpStr.replace(/[^\d]/g,'');
+	//console.log(cName);
+	var query = new AV.Query("Contacts");
+	query.equalTo("CName", cName);
+	query.first().then(
+		function(obj) {
+			if (!obj) {
+				var newCont = new AV.Object("Contacts");
+				newCont.set("CName", cName);
+				newCont.set("MobiPhone", mobiPhone);
+				newCont.save().then(
+					function(){
+						var result = {
+							xml: {
+								ToUserName: msg.xml.FromUserName[0],
+								FromUserName: '' + msg.xml.ToUserName + '',
+								CreateTime: new Date().getTime(),
+								MsgType: 'text',
+								Content: '沒找到' + cName + ', 已添加成功！'
+							}
+						};
+						cb(null, result);
+					},
+					function(err){
+						var result = {
+							xml: {
+								ToUserName: msg.xml.FromUserName[0],
+								FromUserName: '' + msg.xml.ToUserName + '',
+								CreateTime: new Date().getTime(),
+								MsgType: 'text',
+								Content: '沒找到' + cName + ', 嘗試添加時發生錯誤:' + err + ''
+							}
+						};
+						cb(null, result);
+					}
+				);
+			}
+			else {
+				obj.set("MobiPhone", mobiPhone);
+				obj.save().then(
+					function(){
+						var result = {
+							xml: {
+								ToUserName: msg.xml.FromUserName[0],
+								FromUserName: '' + msg.xml.ToUserName + '',
+								CreateTime: new Date().getTime(),
+								MsgType: 'text',
+								Content: '更新成功!'
+							}
+						};
+						cb(null, result);
+					},
+					function(err){
+						var result = {
+							xml: {
+								ToUserName: msg.xml.FromUserName[0],
+								FromUserName: '' + msg.xml.ToUserName + '',
+								CreateTime: new Date().getTime(),
+								MsgType: 'text',
+								Content: '更新時發生錯誤:' + err + '';
+							}
+						};
+						cb(null, result);
+					}
+				);
+			}
+		},
+		function(err) {
+			var result = {
+				xml: {
+					ToUserName: msg.xml.FromUserName[0],
+					FromUserName: '' + msg.xml.ToUserName + '',
+					CreateTime: new Date().getTime(),
+					MsgType: 'text',
+					Content: '查詢是否存在該聯繫人時發生錯誤:' + err + ''
 				}
 			};
 			cb(null, result);
